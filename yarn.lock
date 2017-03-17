@@ -971,6 +971,10 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
+bloodline@~1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/bloodline/-/bloodline-1.0.1.tgz#13f93035a4ed3c6d295308249245a0ed767b35e2"
+
 body-parser@^1.15.2:
   version "1.17.1"
   resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.17.1.tgz#75b3bc98ddd6e7e0d8ffe750dfaca5c66993fa47"
@@ -2279,6 +2283,10 @@ get-stream@^2.2.0:
     object-assign "^4.0.1"
     pinkie-promise "^2.0.0"
 
+get-stream@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"
+
 getpass@^0.1.1:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/getpass/-/getpass-0.1.6.tgz#283ffd9fc1256840875311c1b60e8c40187110e6"
@@ -2601,6 +2609,12 @@ gulp-replace-task@^0.11.0:
     gulp-util "^3.0.0"
     through2 "^2.0.0"
 
+gulp-rm@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/gulp-rm/-/gulp-rm-1.0.2.tgz#cab50d968e3ee3e88ac152c96abc0a7333dfff0a"
+  dependencies:
+    bloodline "~1.0.0"
+
 gulp-sass@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/gulp-sass/-/gulp-sass-3.1.0.tgz#53dc4b68a1f5ddfe4424ab4c247655269a8b74b7"
@@ -2671,6 +2685,15 @@ gulp-util@^3.0, gulp-util@^3.0.0, gulp-util@^3.0.1, gulp-util@^3.0.7, gulp-util@
     replace-ext "0.0.1"
     through2 "^2.0.0"
     vinyl "^0.5.0"
+
+gulp-zip@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/gulp-zip/-/gulp-zip-4.0.0.tgz#1cefc08b4bf36df4b5b1e7c6b36ee55ebbe4a881"
+  dependencies:
+    get-stream "^3.0.0"
+    gulp-util "^3.0.0"
+    through2 "^2.0.1"
+    yazl "^2.1.0"
 
 gulp@^3.9.1:
   version "3.9.1"
@@ -5256,7 +5279,7 @@ through2-filter@^2.0.0:
     through2 "~2.0.0"
     xtend "~4.0.0"
 
-through2@2.X, through2@^2.0.0, through2@^2.0.3, through2@~2.0.0:
+through2@2.X, through2@^2.0.0, through2@^2.0.1, through2@^2.0.3, through2@~2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.3.tgz#0004569b37c7c74ba39c43f3ced78d1ad94140be"
   dependencies:
@@ -5864,3 +5887,9 @@ yauzl@^2.2.1:
   dependencies:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
+
+yazl@^2.1.0:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/yazl/-/yazl-2.4.2.tgz#14cb19083e1e25a70092c1588aabe0f4e4dd4d88"
+  dependencies:
+    buffer-crc32 "~0.2.3"

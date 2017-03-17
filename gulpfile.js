@@ -1,5 +1,4 @@
 const gulp               = require('gulp');
-const del                = require('del');
 const webpack            = require('webpack-stream');
 const webpackBuildConfig = require('./webpack.build.config');
 const nodemon            = require('gulp-nodemon');
@@ -13,9 +12,11 @@ const realFavicon        = require('gulp-real-favicon');
 const fs                 = require('fs');
 const uuid               = require('uuid');
 const replace            = require('gulp-replace-task');
+const rm                 = require('gulp-rm');
 
-const releaseId            = uuid.v4();
+const releaseId            = 'assets/' + uuid.v4();
 const webpackReleaseConfig = require('./webpack.release.config').getConfig(releaseId);
+const zip                  = require('gulp-zip');
 
 const FAVICON_DATA_FILE = 'faviconData.json';
 
@@ -24,31 +25,21 @@ const FAVICON_DATA_FILE = 'faviconData.json';
  * Build (Webpack)
  */
 
-gulp
-    .task('clean:build', function () {
-        del('./public/js/*')
-    });
+gulp.task('clean:build', function () {
+    return gulp.src('./public/js/**/*', {read: false})
+        .pipe(rm({async: false}));
+});
 
 gulp.task('clean:css', function () {
-    del('./public/css/*')
+    return gulp.src('./public/css/**/*', {read: false})
+        .pipe(rm({async: false}));
 });
 
-gulp.task('clean:release:app', function () {
+gulp.task('clean:release', function () {
     'use strict';
-    del('./release/js/*');
-});
-gulp.task('clean:release:css', function () {
-    'use strict';
-    del('./release/css/*');
-});
-gulp.task('clean:release:images', function () {
-    'use strict';
-    del('./release/images/*');
-    del('./release/favicon/*');
-});
-gulp.task('clean:release:data', function () {
-    'use strict';
-    del('./release/data/*', {overwrite: false});
+
+    return gulp.src('./release/**/*', {read: false})
+        .pipe(rm({async: false}));
 });
 
 gulp.task('build', ['clean:build'], function () {
@@ -60,7 +51,7 @@ gulp.task('build', ['clean:build'], function () {
         .pipe(gulp.dest('./'));
 });
 
-gulp.task('buildRelease', ['clean:release:app'], function () {
+gulp.task('buildRelease', ['clean:release'], function () {
     'use strict';
     gulp.src('./src/app/app.js')
         .pipe(webpack(webpackReleaseConfig))
@@ -94,7 +85,7 @@ gulp.task('sass', ['clean:css'], function () {
         .pipe(gulp.dest('./public/css'));
 });
 
-gulp.task('sassRelease', ['clean:release:css', 'copy:normalize:release'], function () {
+gulp.task('sassRelease', ['clean:release'], function () {
     'use strict';
     return gulp.src('./src/sass/**/*.scss')
         .pipe(sass().on('error', sass.logError))
@@ -112,7 +103,7 @@ gulp.task('sassRelease', ['clean:release:css', 'copy:normalize:release'], functi
 });
 
 gulp.task('watch:sass', function () {
-    gulp.watch('./src/sass/**/*.scss', ['sass']);
+    return gulp.watch('./src/sass/**/*.scss', ['sass']);
 });
 
 /** Normalize CSS */
@@ -121,7 +112,7 @@ gulp.task('copy:normalize', function () {
         .pipe(gulp.dest('./public/css'));
 });
 
-gulp.task('copy:normalize:release', function () {
+gulp.task('copy:normalize:release', ['clean:release'], function () {
     return gulp.src('./node_modules/normalize.css/normalize.css')
         .pipe(cleanCSS())
         .pipe(gulp.dest('./release/' + releaseId));
@@ -129,45 +120,50 @@ gulp.task('copy:normalize:release', function () {
 
 /** Images */
 
-gulp.task('imagemin', ['clean:release:images'], function () {
-    gulp.src('public/images/*')
-        .pipe(imagemin())
-        .pipe(gulp.dest('./release/' + releaseId));
-    gulp.src('public/favicon/*')
+gulp.task('imagemin', ['clean:release'], function () {
+    return gulp.src(['public/images/*', 'public/favicon/*'])
         .pipe(imagemin())
         .pipe(gulp.dest('./release/' + releaseId));
 });
 
 /** Data */
 
-gulp.task('datamin', ['clean:release:data'], function () {
+gulp.task('datamin', ['clean:release'], function () {
     'use strict';
-    gulp.src('public/data/*')
+    return gulp.src('public/data/*')
         .pipe(jsonminify())
         .pipe(gulp.dest('./release/' + releaseId));
 });
 
 /** supporting */
-gulp.task('supporting', function () {
+gulp.task('supporting', ['clean:release'], function () {
     'use strict';
-    gulp.src(['public/favicon/browserconfig.xml', 'public/favicon/manifest.json'])
-        .pipe(gulp.dest('./release/' + releaseId));
-    gulp.src('public/video/*')
-        .pipe(gulp.dest('./release/' + releaseId));
-    gulp.src('public/index.html')
-        .pipe(replace({
-            patterns: [
-                {
-                    match      : /(\/js\/|\/css\/|\/images\/|\/video\/|\/favicon\/|\/data\/)/g,
-                    replacement: '/' + releaseId + '/'
-                }
-            ]
-        }))
-        .pipe(htmlmin({
-            collapseWhitespace   : true, collapseInlineTagWhitespace: true, removeComments: true,
-            removeEmptyAttributes: true
-        }))
-        .pipe(gulp.dest('./release'));
+    return gulp.src(['public/favicon/browserconfig.xml', 'public/favicon/manifest.json'])
+            .pipe(replace({
+                patterns: [
+                    {
+                        match      : /(\/js\/|\/css\/|\/images\/|\/video\/|\/favicon\/|\/data\/)/g,
+                        replacement: '/' + releaseId + '/'
+                    }
+                ]
+            }))
+            .pipe(gulp.dest('./release/' + releaseId)) &&
+        gulp.src('public/video/*')
+            .pipe(gulp.dest('./release/' + releaseId)) &&
+        gulp.src(['public/index.html', 'public/sitemap.xml'])
+            .pipe(replace({
+                patterns: [
+                    {
+                        match      : /(\/js\/|\/css\/|\/images\/|\/video\/|\/favicon\/|\/data\/)/g,
+                        replacement: '/' + releaseId + '/'
+                    }
+                ]
+            }))
+            .pipe(htmlmin({
+                collapseWhitespace   : true, collapseInlineTagWhitespace: true, removeComments: true,
+                removeEmptyAttributes: true
+            }))
+            .pipe(gulp.dest('./release'));
 });
 
 /** favicon **/
@@ -262,10 +258,18 @@ gulp.task('check-for-favicon-update', function (done) {
     });
 });
 
+/* zip*/
+gulp.task('zip', ['clean:release', 'buildRelease', 'copy:normalize:release', 'sassRelease', 'imagemin', 'datamin', 'supporting'], function () {
+    'use strict';
+    return gulp.src('./release/**/*')
+        .pipe(zip('release.zip'))
+        .pipe(gulp.dest('./release'));
+});
+
 /**
  * Main tasks
  */
 
 gulp.task('watch', ['copy:normalize', 'build', 'sass', 'serve:node', 'watch:build', 'watch:sass']);
-gulp.task('release', ['buildRelease', 'sassRelease', 'imagemin', 'datamin', 'supporting']);
+gulp.task('release', ['clean:release', 'buildRelease', 'copy:normalize:release', 'sassRelease', 'imagemin', 'datamin', 'supporting', 'zip']);
 gulp.task('default', ['copy:normalize', 'build', 'sass', 'serve:node']);
