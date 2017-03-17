@@ -9,9 +9,9 @@ export default function (props) {
             <div className="homeAbout">
                 <h1>{props.title}</h1>
 
-                {props.content.map(paragraph => {
+                {props.content.map((paragraph, index) => {
                     return (
-                        <p>{paragraph}</p>
+                        <p key={index}>{paragraph}</p>
                     );
                 })}
 
