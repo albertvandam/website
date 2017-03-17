@@ -1,0 +1,90 @@
+@import "colors";
+
+.githubLink {
+  background    : $charcoal;
+  border-radius : 3px;
+  float         : right;
+  cursor        : pointer;
+
+  &:hover {
+    background : $paleGold;
+  }
+}
+
+.project {
+  border : 1px solid $whisper;
+
+  &:hover {
+    background : $whisper;
+  }
+}
+
+.projectBox {
+  border : 15px solid transparent;
+}
+
+@media screen and (min-width : 720px) {
+  .project {
+    overflow : hidden;
+    height   : 380px;
+    width    : 50%;
+    float    : left;
+  }
+}
+
+@media screen and (min-width : 1080px) {
+  .project {
+    width : calc(100% / 3);
+  }
+}
+
+.pr-desc {
+  font-style    : italic;
+  text-align    : justify;
+  padding-left  : 5px;
+  padding-right : 5px;
+}
+
+.pr-features {
+  display         : block;
+  margin          : 5px 0;
+  padding         : 0 0 0 20px;
+  list-style-type : square;
+}
+
+.pr-tech {
+  display    : block;
+  margin     : 0;
+  padding    : 0;
+  list-style : none;
+
+  li {
+    display       : inline-block;
+    padding-right : 5px;
+
+    &::after {
+      content : ',';
+    }
+
+    &:last-child::after {
+      content : '';
+    }
+
+    &:hover {
+      background : $paleGold;
+    }
+  }
+}
+
+.code {
+  margin-top : calc(5vh + 27px);
+}
+
+.pr-title {
+  margin-top : 0;
+}
+
+.screen {
+  width  : 90%;
+  margin : 5%;
+}

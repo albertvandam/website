@@ -1,0 +1,12 @@
+@import "colors";
+
+.notFound {
+  clear           : both;
+  background      : url(/images/notfound.jpeg) center bottom no-repeat;
+  position        : fixed;
+  top             : 0;
+  left            : 0;
+  width           : 100%;
+  height          : 100%;
+  background-size : cover;
+}

@@ -1,0 +1,4 @@
+{
+  "sitekey" : "YOUR GOOGLE RECAPTCHA SITE KEY",
+  "endpoint": "some.site.that.can.send.your.form"
+}

@@ -1,0 +1,122 @@
+@import "colors";
+
+.profile, .skillsContainer {
+  margin-top : calc(5vh + 27px);
+}
+
+.skillsContainer {
+  display : none;
+}
+
+.content {
+  padding : 15px;
+}
+
+@media screen and (min-width : 640px) {
+  .content {
+    margin : auto auto;
+    width  : 90vh;
+  }
+
+  @media screen and (max-height : 640px) {
+    .content {
+      width : 576px;
+    }
+  }
+
+  @media screen and (min-height : 800px) {
+    .content {
+      width : 720px;
+    }
+  }
+}
+
+@media screen and (min-width : 1291px) {
+  .profile {
+    float : left;
+    width : calc(100% - 60vh);
+  }
+
+  @media screen and (max-height : 640px) {
+    .profile {
+      width : calc(100% - 384px);
+    }
+  }
+
+  @media screen and (min-height : 800px) {
+    .profile {
+      width : calc(100% - 480px);
+    }
+  }
+}
+
+.skills {
+  padding : 15px;
+}
+
+@media screen and (min-width : 640px) {
+  .skills {
+    margin : auto auto;
+    width  : 60vh;
+  }
+
+  @media screen and (max-height : 640px) {
+    .skills {
+      width : 384px;
+    }
+  }
+
+  @media screen and (min-height : 800px) {
+    .skills {
+      width : 480px;
+    }
+  }
+}
+
+@media screen and (min-width : 1291px) {
+  .skillsContainer {
+    display : block;
+    width   : 60vh;
+    float   : right;
+  }
+
+  @media screen and (max-height : 640px) {
+    .skillsContainer {
+      width : 384px;
+    }
+  }
+
+  @media screen and (min-height : 800px) {
+    .skillsContainer {
+      width : 480px;
+    }
+  }
+
+  .skills {
+    width : 100%;
+  }
+}
+
+.skill {
+  margin : 5px;
+
+  &::after {
+    content : ' ';
+    display : block;
+    clear   : both;
+  }
+
+  &:hover {
+    background : $whisper;
+  }
+
+  .sk-title {
+    float       : left;
+    line-height : 28px;
+  }
+
+  .strength {
+    float : right;
+    color : $paleGold;
+  }
+}

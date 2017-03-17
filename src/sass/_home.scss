@@ -1,0 +1,255 @@
+@import "colors";
+
+.homeContentContainer {
+  color      : $paper;
+  position   : fixed;
+  top        : 0;
+  left       : 0;
+  width      : 100%;
+  height     : 100%;
+  background : url('/images/wallpaper.jpg') center center no-repeat;
+}
+
+.homeContent {
+  position   : relative;
+  top        : 50%;
+  transform  : translateY(-50%);
+  text-align : center;
+}
+
+.catchPhrase {
+  font-size      : 12vw;
+  line-height    : 12.2vw;
+  font-weight    : bold;
+  margin-bottom  : 3vh;
+  text-transform : uppercase;
+}
+
+.tagLine {
+  font-size      : 5vw;
+  line-height    : 5.2vw;
+  text-transform : lowercase;
+  font-style     : italic;
+}
+
+@media screen and (min-width : 640px) {
+  .catchPhrase {
+    font-size   : 4vw;
+    line-height : 4.2vw;
+  }
+
+  .tagLine {
+    font-size   : 2vw;
+    line-height : 2.2vw;
+  }
+}
+
+.socialMedia {
+  position : absolute;
+  bottom   : 2.5vh;
+  left     : 2.5vh;
+}
+
+.email {
+  color         : $paper;
+  font-size     : 18px;
+  padding-right : 2px;
+}
+
+.homePageTwo {
+  background : $paper;
+  position   : absolute;
+  top        : 100%;
+  width      : 100%;
+}
+
+.homeAbout {
+  padding : 15px;
+
+  a {
+    font-size       : 2.5vh;
+    line-height     : 2.6vh;
+    display         : inline-block;
+    text-align      : center;
+    text-decoration : none;
+    width           : auto;
+    border          : 2px solid $charcoal;
+    border-radius   : 2px;
+    text-transform  : uppercase;
+    background      : $charcoal;
+    color           : $paper;
+    padding         : 1vh;
+    letter-spacing  : 1px;
+    box-shadow      : 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      background : $paper;
+      color      : $charcoal;
+    }
+  }
+}
+
+@media screen and (min-width : 640px) {
+  .homeAbout {
+    margin : auto auto;
+    width  : 90vh;
+  }
+
+  @media screen and (max-height : 640px) {
+    .homeAbout {
+      width : 576px;
+    }
+  }
+
+  @media screen and (min-height : 800px) {
+    .homeAbout {
+      width : 720px;
+    }
+  }
+}
+
+@media screen and (min-width : 1291px) {
+  .homeAboutContainer {
+    float : left;
+    width : calc(100% - 70vh);
+  }
+
+  @media screen and (max-height : 640px) {
+    .homeAboutContainer {
+      width : calc(100% - 448px);
+    }
+  }
+
+  @media screen and (min-height : 800px) {
+    .homeAboutContainer {
+      width : calc(100% - 560px);
+    }
+  }
+}
+
+.profileVideoContainer {
+  padding : 0;
+  height  : 45vw;
+  margin  : 0 0 15px;
+
+  &.full {
+    position : fixed;
+    top      : 0;
+    left     : 0;
+    width    : 100%;
+    height   : 100%;
+    margin   : 0;
+    z-index  : 9995;
+    padding  : 0;
+  }
+}
+
+.profileVideo {
+  width   : 80%;
+  margin  : 0 0 0 10%;
+  padding : 0;
+
+  &.full {
+    position  : relative;
+    top       : 50%;
+    transform : translateY(-50%);
+    cursor    : pointer;
+  }
+}
+
+.playButton {
+  position    : relative;
+  font-size   : 10vh;
+  cursor      : pointer;
+  text-align  : center;
+  color       : $charcoal;
+  width       : 80vw;
+  height      : 45vw;
+  top         : -45vw;
+  padding     : 0;
+  margin      : 0 0 0 10%;
+  line-height : 45vw;
+
+  &:hover {
+    color : $paleGold;
+  }
+
+  &.full {
+    position    : fixed;
+    top         : 0;
+    left        : 0;
+    width       : 100%;
+    height      : 100%;
+    line-height : 100vh;
+    margin      : 0;
+    padding     : 0;
+    z-index     : 9996;
+  }
+}
+
+@media screen and (min-width : 1291px) {
+  .profileVideoContainer {
+    margin-top : 30px;
+    display    : block;
+    width      : 70vh;
+    float      : right;
+    height     : 40vh;
+  }
+
+  @media screen and (max-height : 640px) {
+    .profileVideoContainer {
+      width : 448px;
+    }
+  }
+
+  @media screen and (min-height : 800px) {
+    .profileVideoContainer {
+      width : 560px;
+    }
+  }
+
+  .playButton {
+    width       : 80%;
+    height      : 35vh;
+    top         : -35vh;
+    line-height : 40vh;
+  }
+}
+
+.profileVideoBackground {
+  display    : none;
+  position   : fixed;
+  top        : 0;
+  left       : 0;
+  width      : 100%;
+  height     : 100%;
+  background : $charcoal;
+  opacity    : 0.7;
+  z-index    : 9990;
+  margin     : 0;
+  padding    : 0;
+
+  &.full {
+    display : block;
+  }
+}
+
+.profileVideoClose {
+  display    : none;
+  position   : fixed;
+  top        : 1vh;
+  right      : 1vw;
+  color      : $paleGold;
+  z-index    : 9999;
+  font-size  : 7vh;
+  background : $charcoal;
+  cursor     : pointer;
+
+  &:hover {
+    color : $paper;
+  }
+
+  &.full {
+    display : block;
+  }
+}
