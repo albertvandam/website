@@ -1,12 +1,15 @@
 const gulp               = require('gulp');
 const webpack            = require('webpack-stream');
 const webpackBuildConfig = require('./webpack.build.config');
+const del                = require('del');
 const nodemon            = require('gulp-nodemon');
 const sass               = require('gulp-sass');
 const autoprefixer       = require('gulp-autoprefixer');
 const cleanCSS           = require('gulp-clean-css');
 const imagemin           = require('gulp-imagemin');
-const jsonminify         = require('gulp-jsonminify');
+const imageminPngquant   = require('imagemin-pngquant');
+const imageminMozjpeg    = require('imagemin-mozjpeg');
+const imageminSvgo       = require('imagemin-svgo');
 const htmlmin            = require('gulp-htmlmin');
 const realFavicon        = require('gulp-real-favicon');
 const fs                 = require('fs');
@@ -18,6 +21,9 @@ const releaseId            = 'assets/' + uuid.v4();
 const webpackReleaseConfig = require('./webpack.release.config').getConfig(releaseId);
 const zip                  = require('gulp-zip');
 
+const argv         = require('yargs').argv;
+const isProduction = (typeof(argv.production) !== 'undefined');
+
 const FAVICON_DATA_FILE = 'faviconData.json';
 
 
@@ -26,18 +32,14 @@ const FAVICON_DATA_FILE = 'faviconData.json';
  */
 
 gulp.task('clean:build', function () {
-    return gulp.src('./public/js/**/*', {read: false})
-        .pipe(rm({async: false}));
+    del('./public/js/*');
 });
 
 gulp.task('clean:css', function () {
-    return gulp.src('./public/css/**/*', {read: false})
-        .pipe(rm({async: false}));
+    del('./public/css/*');
 });
 
 gulp.task('clean:release', function () {
-    'use strict';
-
     return gulp.src('./release/**/*', {read: false})
         .pipe(rm({async: false}));
 });
@@ -69,7 +71,7 @@ gulp.task('watch:build', function () {
  * Node Server (Express)
  */
 
-gulp.task('serve:node', function (done) {
+gulp.task('serve:node', ['copy:normalize', 'build', 'sass'], function (done) {
     nodemon({
         exec : 'node ./node_modules/babel-cli/bin/babel-node.js ./server.js',
         watch: ['server.js'],
@@ -107,7 +109,7 @@ gulp.task('watch:sass', function () {
 });
 
 /** Normalize CSS */
-gulp.task('copy:normalize', function () {
+gulp.task('copy:normalize', ['clean:css'], function () {
     return gulp.src('./node_modules/normalize.css/normalize.css')
         .pipe(gulp.dest('./public/css'));
 });
@@ -122,16 +124,16 @@ gulp.task('copy:normalize:release', ['clean:release'], function () {
 
 gulp.task('imagemin', ['clean:release'], function () {
     return gulp.src(['public/images/*', 'public/favicon/*'])
-        .pipe(imagemin())
-        .pipe(gulp.dest('./release/' + releaseId));
-});
-
-/** Data */
-
-gulp.task('datamin', ['clean:release'], function () {
-    'use strict';
-    return gulp.src('public/data/*')
-        .pipe(jsonminify())
+        .pipe(imagemin({
+            progressive      : true,
+            optimizationLevel: 7,
+            svgoPlugins      : [{removeViewBox: false}],
+            use              : [
+                imageminPngquant(),
+                imageminMozjpeg(),
+                imageminSvgo()
+            ]
+        }))
         .pipe(gulp.dest('./release/' + releaseId));
 });
 
@@ -259,7 +261,7 @@ gulp.task('check-for-favicon-update', function (done) {
 });
 
 /* zip*/
-gulp.task('zip', ['clean:release', 'buildRelease', 'copy:normalize:release', 'sassRelease', 'imagemin', 'datamin', 'supporting'], function () {
+gulp.task('zip', ['clean:release', 'buildRelease', 'copy:normalize:release', 'sassRelease', 'imagemin', 'supporting'], function () {
     'use strict';
     return gulp.src('./release/**/*')
         .pipe(zip('release.zip'))
@@ -271,5 +273,5 @@ gulp.task('zip', ['clean:release', 'buildRelease', 'copy:normalize:release', 'sa
  */
 
 gulp.task('watch', ['copy:normalize', 'build', 'sass', 'serve:node', 'watch:build', 'watch:sass']);
-gulp.task('release', ['clean:release', 'buildRelease', 'copy:normalize:release', 'sassRelease', 'imagemin', 'datamin', 'supporting', 'zip']);
+gulp.task('release', ['clean:release', 'buildRelease', 'copy:normalize:release', 'sassRelease', 'imagemin', 'supporting', 'zip']);
 gulp.task('default', ['copy:normalize', 'build', 'sass', 'serve:node']);

@@ -1,8 +1,6 @@
+/* globals IMAGE_URL: false, VIDEO_URL: false */
 import React from 'react';
-
-const IMAGE_URL = process.env.IMAGE_URL;
-const VIDEO_URL = process.env.VIDEO_URL;
-
+/*
 class ProfileVideo extends React.Component {
     constructor(props) {
         super(props);
@@ -68,6 +66,17 @@ class ProfileVideo extends React.Component {
                         title={this.state.paused ? 'Play video' : 'Pause video'}>{this.state.paused ? 'play_circle_filled' : 'pause'}
                     </div>
                 </div>
+            </div>
+        );
+    }
+}
+*/
+
+class ProfileVideo extends React.Component {
+    render() {
+        return (
+            <div className="profileVideoContainer">
+                <img src={IMAGE_URL + '/me.jpg'} className="profilePhoto"/>
             </div>
         );
     }

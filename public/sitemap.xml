@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://albert.vandam.io</loc>
+        <lastmod>2017-03-18T21:52:00.000Z</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://albert.vandam.io/code</loc>
+        <lastmod>2017-03-18T21:52:00.000Z</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://albert.vandam.io/aboutme</loc>
+        <lastmod>2017-03-18T21:52:00.000Z</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://albert.vandam.io/contact</loc>
+        <lastmod>2017-03-18T21:52:00.000Z</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+</urlset>

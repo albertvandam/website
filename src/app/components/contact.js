@@ -6,6 +6,7 @@ import * as ContactStatus from '../constants/contact-status';
 import * as ContactActions from '../actions/contact-actions';
 import * as ContactApi from '../api/contact-api';
 import Copyright from '../sections/copyright';
+import siteConfig from '../../config/global';
 
 class ContactForm extends React.Component {
     constructor(props) {
@@ -36,7 +37,7 @@ class ContactForm extends React.Component {
         } else {
             let state            = Object.assign({}, this.props.state);
             state.captcha.widget = grecaptcha.render('cap', {
-                'sitekey' : process.env.RC_SITE_KEY,
+                'sitekey' : siteConfig.recaptcha,
                 'callback': function (response) {
                     store.dispatch(ContactActions.setContactData({
                         captcha: {
@@ -86,7 +87,7 @@ class ContactForm extends React.Component {
                 window.setTimeout(function () {
                     store.dispatch(ContactActions.resetContactData());
 
-                }, 5000);
+                }, 10000);
                 break;
         }
     }

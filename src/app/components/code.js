@@ -1,17 +1,11 @@
+/* globals: IMAGE_URL: false */
 import React from 'react';
-import {connect} from 'react-redux';
-import * as projectsApi from '../api/project-api';
 import Copyright from '../sections/copyright';
-
-const IMAGE_URL = process.env.IMAGE_URL;
+import projects from '../../config/projects';
 
 const Code = React.createClass({
     openLink: function (link) {
         window.open(link);
-    },
-
-    componentDidMount: function () {
-        projectsApi.getProjects();
     },
 
     render: function () {
@@ -20,7 +14,7 @@ const Code = React.createClass({
         return (
             <div>
                 <div className="code">
-                    {this.props.projects.map((project, prIndex) => {
+                    {projects.map((project, prIndex) => {
                         let githubLink = project.hasOwnProperty('github') ? (
                                 <img src={IMAGE_URL + '/github-box.svg'} className="githubLink"
                                      width={28} height={28} onClick={() => this.openLink(project.github)}
@@ -29,7 +23,7 @@ const Code = React.createClass({
 
                         if (project.hasOwnProperty('icon')) {
                             githubLink = (
-                                <img src={project.icon} className="githubLink"
+                                <img src={project.icon.replace('{IMGURL}', IMAGE_URL)} className="githubLink"
                                      width={28} height={28} onClick={() => this.openLink(project.link)}
                                      alt={project.title} title={project.title}/>
                             );
@@ -63,7 +57,7 @@ const Code = React.createClass({
                                 <div>
                                     {project.screens.map((screen, index) => {
                                         return (
-                                            <img className="screen" src={screen} alt={project.title} key={index}/>
+                                            <img className="screen" src={screen.replace('{IMGURL}', IMAGE_URL)} alt={project.title} key={index}/>
                                         )
                                     })}
                                 </div>
@@ -86,11 +80,4 @@ const Code = React.createClass({
     }
 });
 
-
-const mapStateToProps = function (store) {
-    return {
-        projects: store.projectState.projects
-    };
-};
-
-export default connect(mapStateToProps)(Code);
+export  default Code;

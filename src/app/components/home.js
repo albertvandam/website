@@ -1,16 +1,13 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import * as bioApi from '../api/bio-api';
 import SocialMedia from '../sections/social-media';
 import AboutMe from '../sections/aboutme';
 import ProfileVideo from '../sections/profile-video';
 import Copyright from '../sections/copyright';
+import homeConfig from '../../config/home';
+import Info from '../sections/info';
+import InfoImage from '../sections/infoImage';
 
 const Home = React.createClass({
-    componentDidMount: function () {
-        bioApi.getBio();
-    },
-
     render: function () {
         document.body.scrollTop = 0;
 
@@ -18,14 +15,16 @@ const Home = React.createClass({
             <div>
                 <div className="homeContentContainer">
                     <div className="homeContent">
-                        <div className="catchPhrase">{this.props.bio.catchPhrase}</div>
-                        <div className="tagLine">{this.props.bio.tagLine}</div>
+                        <div className="catchPhrase">{homeConfig.catchPhrase}<a href="#info" className="sup">*</a></div>
+                        <div className="tagLine">{homeConfig.tagLine}</div>
                     </div>
                     <SocialMedia/>
                 </div>
                 <div className="homePageTwo">
-                    <AboutMe title={this.props.bio.title} content={this.props.bio.content} />
+                    <AboutMe/>
                     <ProfileVideo/>
+                    <Info content={homeConfig}/>
+                    <InfoImage/>
                     <Copyright/>
                 </div>
             </div>
@@ -33,11 +32,4 @@ const Home = React.createClass({
     }
 });
 
-
-const mapStateToProps = function (store) {
-    return {
-        bio: store.bioState.bio
-    };
-};
-
-export default connect(mapStateToProps)(Home);
+export default Home;

@@ -128,6 +128,7 @@
 }
 
 .profileVideoContainer {
+  display : none;
   padding : 0;
   height  : 45vw;
   margin  : 0 0 15px;
@@ -142,6 +143,10 @@
     z-index  : 9995;
     padding  : 0;
   }
+}
+
+.profilePhoto {
+  display : none;
 }
 
 .profileVideo {
@@ -208,6 +213,15 @@
     }
   }
 
+  .profilePhoto {
+    display       : block;
+    width         : 40%;
+    margin-left   : 30%;
+    border-radius : 75%;
+    margin-top    : 5%;
+    padding       : 0;
+  }
+
   .playButton {
     width       : 80%;
     height      : 35vh;
@@ -252,4 +266,42 @@
   &.full {
     display : block;
   }
+}
+
+.sup {
+  color           : $paper;
+  text-decoration : none;
+  vertical-align  : super;
+  font-size       : smaller;
+}
+
+a.normal {
+  font-size      : inherit;
+  line-height    : inherit;
+  display        : inline;
+  text-align     : left;
+  padding        : 0;
+  margin         : 0;
+  background     : inherit;
+  color          : inherit;
+  border         : none;
+  text-transform : inherit;
+  box-shadow     : none;
+  border-bottom  : 1px solid $charcoal;
+
+  &:hover {
+    color : $paleGold;
+  }
+}
+
+@media screen and (max-width : 1291px) {
+  .infoImage {
+    display : none;
+  }
+}
+
+.infoPic {
+  position      : relative;
+  top           : 50%;
+  border-radius : 5px;
 }

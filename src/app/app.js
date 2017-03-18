@@ -1,16 +1,40 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import store from './store';
-import router from './router';
+//import router from './router';
+//import MainLayout from './layouts/main-layout';
+
+import Header from './sections/header';
+import Home from './components/home';
+import Code from './components/code';
+import Profile from './components/profile';
+import Contact from './components/contact';
+import NotFound from './components/notfound';
+
+import siteConfig from '../config/global';
 require('es6-promise').polyfill();
 
 // Provider is a top-level component that wrapps our entire application, including
 // the Router. We pass it a reference to the store so we can use react-redux's
 // connect() method for Component Containers.
 ReactDOM.render(
-  <Provider store={store}>{router}</Provider>,
-  document.getElementById('root')
+    <Provider store={store}>
+        <BrowserRouter>
+            <div>
+                <Switch>
+                    <Route path="/" exact component={Home}/>
+                    <Route path="/code" component={Code}/>
+                    <Route path="/aboutme" component={Profile}/>
+                    <Route path="/contact" component={Contact}/>
+                    <Route component={NotFound}/>
+                </Switch>
+                <Header/>
+            </div>
+        </BrowserRouter>
+    </Provider>,
+    document.getElementById('root')
 );
 
 (function (i, s, o, g, r, a, m) {
@@ -25,5 +49,5 @@ ReactDOM.render(
     m.parentNode.insertBefore(a, m)
 })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-ga('create', 'UA-93190439-2', 'auto');
+ga('create', siteConfig.analytics, 'auto');
 ga('send', 'pageview');

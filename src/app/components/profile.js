@@ -1,16 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import SkillList from '../sections/skills';
-import * as skillsApi from '../api/skills-api';
-import * as profileApi from '../api/profile-api';
 import Copyright from '../sections/copyright';
+import profile from '../../config/profile';
 
 const Profile = React.createClass({
-    componentDidMount: function () {
-        skillsApi.getSkills();
-        profileApi.getProfile();
-    },
-
     render: function () {
         document.body.scrollTop = 0;
 
@@ -18,22 +11,21 @@ const Profile = React.createClass({
             <div>
                 <div className="profile">
                     <div className="content">
-                        {this.props.profile.map((entry, index) => {
+                        {profile.map((entry, index) => {
                             return (
                                 <div key={index}>
-                                    <h3>{entry.title}</h3>
-                                    {entry.content.map((paragraph, pindex) => {
-                                        return (
-                                            <p key={pindex}>{paragraph}</p>
-                                        );
-                                    })}
+                                    <h3>{entry.title}</h3>{entry.content.map((paragraph, paragraphIndex) => {
+                                    return (
+                                        <p key={paragraphIndex}>{paragraph}</p>
+                                    );
+                                })}
                                 </div>
                             );
                         })}
                     </div>
                 </div>
 
-                <SkillList skills={this.props.skills}/>
+                <SkillList/>
 
                 <Copyright/>
             </div>
@@ -41,11 +33,4 @@ const Profile = React.createClass({
     }
 });
 
-const mapStateToProps = function (store) {
-    return {
-        skills : store.skillState.skills,
-        profile: store.profileState.profile
-    };
-};
-
-export default connect(mapStateToProps)(Profile);
+export default Profile;
